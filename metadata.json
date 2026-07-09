@@ -1,0 +1,6 @@
+{
+  "name": "SiteCare Manager",
+  "description": "Application de gestion des ventes de sites web et des contrats de maintenance pour développeurs indépendants.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

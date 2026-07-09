@@ -1,0 +1,116 @@
+{
+  "entities": {
+    "client": {
+      "title": "Client",
+      "description": "Un client enregistré dans le répertoire",
+      "type": "object",
+      "properties": {
+        "nom": { "type": "string" },
+        "entreprise": { "type": "string" },
+        "telephone": { "type": "string" },
+        "whatsapp": { "type": "string" },
+        "email": { "type": "string" },
+        "adresse": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["nom", "entreprise", "telephone", "email", "createdAt"]
+    },
+    "project": {
+      "title": "Project",
+      "description": "Un projet de création de site web rattaché à un client",
+      "type": "object",
+      "properties": {
+        "clientId": { "type": "string" },
+        "nom": { "type": "string" },
+        "description": { "type": "string" },
+        "typeSite": { "type": "string" },
+        "domaine": { "type": "string" },
+        "hebergement": { "type": "string" },
+        "dateDebut": { "type": "string" },
+        "dateLivraison": { "type": "string" },
+        "statut": { "type": "string" },
+        "prixSite": { "type": "number" },
+        "datePaiementSite": { "type": "string" },
+        "statutVente": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["clientId", "nom", "typeSite", "domaine", "hebergement", "dateDebut", "statut", "prixSite", "statutVente", "createdAt"]
+    },
+    "contract": {
+      "title": "Contract",
+      "description": "Un contrat de maintenance récurrente rattaché à un projet",
+      "type": "object",
+      "properties": {
+        "projetId": { "type": "string" },
+        "clientId": { "type": "string" },
+        "montant": { "type": "number" },
+        "frequence": { "type": "string" },
+        "dateDebut": { "type": "string" },
+        "prochaineEcheance": { "type": "string" },
+        "statut": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["projetId", "clientId", "montant", "frequence", "dateDebut", "prochaineEcheance", "statut", "createdAt"]
+    },
+    "payment": {
+      "title": "Payment",
+      "description": "Un paiement ou acompte enregistré pour un projet ou un contrat",
+      "type": "object",
+      "properties": {
+        "clientId": { "type": "string" },
+        "projetId": { "type": "string" },
+        "contratId": { "type": "string" },
+        "type": { "type": "string" },
+        "montant": { "type": "number" },
+        "datePaiement": { "type": "string" },
+        "moyenPaiement": { "type": "string" },
+        "reference": { "type": "string" },
+        "commentaire": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["clientId", "projetId", "type", "montant", "datePaiement", "moyenPaiement", "createdAt"]
+    },
+    "relance": {
+      "title": "Relance",
+      "description": "Un historique de message de relance client transmis",
+      "type": "object",
+      "properties": {
+        "clientId": { "type": "string" },
+        "clientNom": { "type": "string" },
+        "projetId": { "type": "string" },
+        "projetNom": { "type": "string" },
+        "typePaiement": { "type": "string" },
+        "montant": { "type": "number" },
+        "lienPaiement": { "type": "string" },
+        "dateEcheance": { "type": "string" },
+        "dateEnvoi": { "type": "string" },
+        "canal": { "type": "string" },
+        "statut": { "type": "string" }
+      },
+      "required": ["clientId", "clientNom", "projetId", "projetNom", "typePaiement", "montant", "lienPaiement", "dateEcheance", "dateEnvoi", "canal", "statut"]
+    }
+  },
+  "firestore": {
+    "/clients/{clientId}": {
+      "schema": "client",
+      "description": "Collection des fiches clients"
+    },
+    "/projects/{projectId}": {
+      "schema": "project",
+      "description": "Collection des projets web associés aux clients"
+    },
+    "/contracts/{contractId}": {
+      "schema": "contract",
+      "description": "Collection des contrats de maintenance"
+    },
+    "/payments/{paymentId}": {
+      "schema": "payment",
+      "description": "Collection du journal des paiements"
+    },
+    "/relances/{relanceId}": {
+      "schema": "relance",
+      "description": "Collection des relances effectuées"
+    }
+  }
+}
