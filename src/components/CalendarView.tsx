@@ -114,25 +114,27 @@ export default function CalendarView({ clients, projects, contracts, payments }:
               <p className="text-xs text-zinc-500">Visualisez et anticipez les renouvellements</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <button 
-              onClick={handlePrevMonth}
-              className="p-1.5 hover:bg-zinc-100 rounded-lg border border-zinc-200 transition-colors text-zinc-600"
-              title="Mois précédent"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <span className="font-medium text-sm text-zinc-800 min-w-[120px] text-center">
-              {monthNames[month]} {year}
-            </span>
-            <button 
-              onClick={handleNextMonth}
-              className="p-1.5 hover:bg-zinc-100 rounded-lg border border-zinc-200 transition-colors text-zinc-600"
-              title="Mois suivant"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
+         <div className="flex items-center gap-1">
+  <button
+    onClick={handlePrevMonth}
+    className="p-1.5 hover:bg-zinc-100 rounded-lg border border-zinc-200 transition-colors text-zinc-600"
+    title="Mois précédent"
+  >
+    <ChevronLeft className="w-4 h-4" />
+  </button>
+
+  <span className="font-medium text-sm text-zinc-800 whitespace-nowrap">
+    {monthNames[month]} {year}
+  </span>
+
+  <button
+    onClick={handleNextMonth}
+    className="p-1.5 hover:bg-zinc-100 rounded-lg border border-zinc-200 transition-colors text-zinc-600"
+    title="Mois suivant"
+  >
+    <ChevronRight className="w-4 h-4" />
+  </button>
+</div>
         </div>
 
         {/* Calendar Grid */}
@@ -210,18 +212,15 @@ export default function CalendarView({ clients, projects, contracts, payments }:
         <div className="flex flex-wrap items-center gap-4 mt-6 pt-4 border-t border-zinc-100 text-xs text-zinc-500">
           <div className="flex items-center gap-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-            <span>🟢 Payé</span>
+            <span>Payé</span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-            <span>🟡 Échéance bientôt (&le; 7j)</span>
+            <span>Échéance bientôt (&le; 7j)</span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
-            <span>🔴 Retard</span>
-          </div>
-          <div className="ml-auto text-zinc-400 text-[11px] font-mono">
-            Date système simulée : 09 Juillet 2026
+            <span>Retard</span>
           </div>
         </div>
       </div>
