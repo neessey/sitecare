@@ -199,327 +199,330 @@ Yaniss-Elie Sey`;
     return matchesSearch && r.canal === channelFilter;
   });
 
-  return (
-    <div className="space-y-6">
-      {/* Search and Action row */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white p-4 rounded-xl border border-zinc-200/80 shadow-xs">
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
-          <div className="relative w-full sm:max-w-xs">
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-zinc-400" />
-            <input
-              type="text"
-              placeholder="Rechercher relance client..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 text-sm bg-zinc-50 border border-zinc-200 rounded-lg focus:outline-hidden focus:ring-1 focus:ring-amber-500 focus:bg-white text-zinc-800"
-            />
-          </div>
-          
-          <div className="flex items-center gap-1.5 overflow-x-auto">
-            {['Tous', 'WhatsApp', 'Email', 'Copie'].map((canal) => (
-              <button
-                key={canal}
-                onClick={() => setChannelFilter(canal)}
-                className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-all whitespace-nowrap
-                  ${channelFilter === canal
-                    ? 'bg-zinc-900 border-zinc-900 text-white shadow-xs'
-                    : 'bg-zinc-50 border-zinc-200 text-zinc-600 hover:bg-zinc-100'
-                  }
-                `}
-              >
-                {canal === 'Tous' ? 'Tous les canaux' : canal}
-              </button>
-            ))}
-          </div>
+return (
+  <div className="space-y-4 md:space-y-6">
+    {/* Search and Action row - responsive */}
+    <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 md:gap-4 bg-white p-3 sm:p-4 rounded-xl border border-zinc-200/80 shadow-xs">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
+        <div className="relative w-full sm:max-w-xs">
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-zinc-400" />
+          <input
+            type="text"
+            placeholder="Rechercher relance client..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-9 pr-4 py-2 text-sm bg-zinc-50 border border-zinc-200 rounded-lg focus:outline-hidden focus:ring-1 focus:ring-amber-500 focus:bg-white text-zinc-800"
+          />
         </div>
-
-        <button
-          onClick={handleOpenGenerator}
-          className="w-full md:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-zinc-950 text-white rounded-lg hover:bg-zinc-800 transition-colors text-sm font-medium shadow-xs"
-        >
-          <MessageSquare className="w-4 h-4 text-amber-400" />
-          Générer une relance
-        </button>
+        
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+          {['Tous', 'WhatsApp', 'Email', 'Copie'].map((canal) => (
+            <button
+              key={canal}
+              onClick={() => setChannelFilter(canal)}
+              className={`px-2.5 sm:px-3 py-1.5 text-[10px] sm:text-xs font-medium rounded-lg border transition-all whitespace-nowrap
+                ${channelFilter === canal
+                  ? 'bg-zinc-900 border-zinc-900 text-white shadow-xs'
+                  : 'bg-zinc-50 border-zinc-200 text-zinc-600 hover:bg-zinc-100'
+                }
+              `}
+            >
+              {canal === 'Tous' ? 'Tous les canaux' : canal}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Grid workspace */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* History of messages sent */}
-        <div className="lg:col-span-2 bg-white rounded-xl border border-zinc-200/80 shadow-xs p-6">
-          <div className="flex items-center gap-2 mb-4">
-            <Send className="w-5 h-5 text-amber-500" />
-            <h3 className="font-semibold text-zinc-900 text-base">Historique des relances transmises</h3>
+      <button
+        onClick={handleOpenGenerator}
+        className="w-full lg:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-zinc-950 text-white rounded-lg hover:bg-zinc-800 transition-colors text-sm font-medium shadow-xs"
+      >
+        <MessageSquare className="w-4 h-4 text-amber-400" />
+        Générer une relance
+      </button>
+    </div>
+
+    {/* Grid workspace - responsive */}
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+      {/* History of messages sent - takes 2 columns on desktop */}
+      <div className="lg:col-span-2 bg-white rounded-xl border border-zinc-200/80 shadow-xs p-4 sm:p-6">
+        <div className="flex items-center gap-2 mb-4">
+          <Send className="w-5 h-5 text-amber-500 shrink-0" />
+          <h3 className="font-semibold text-zinc-900 text-sm sm:text-base">Historique des relances transmises</h3>
+        </div>
+
+        {filteredRelances.length === 0 ? (
+          <div className="text-center py-8 sm:py-12 border border-dashed border-zinc-200 rounded-xl">
+            <p className="text-zinc-500 text-sm">Aucun historique de relance disponible.</p>
           </div>
-
-          {filteredRelances.length === 0 ? (
-            <div className="text-center py-12 border border-dashed border-zinc-200 rounded-xl">
-              <p className="text-zinc-500 text-sm">Aucun historique de relance disponible.</p>
-            </div>
-          ) : (
-            <div className="space-y-3.5 max-h-[480px] overflow-y-auto pr-1">
-              {filteredRelances.map((rel) => (
-                <div 
-                  key={rel.id} 
-                  className="p-4 rounded-xl border border-zinc-200/60 bg-zinc-50/20 hover:bg-zinc-50/50 hover:border-zinc-300 transition-all flex flex-col sm:flex-row justify-between sm:items-center gap-4"
-                >
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-sm text-zinc-900">{rel.clientNom}</span>
-                      <span className="text-[10px] bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded-full font-mono">
-                        {rel.projetNom}
-                      </span>
-                    </div>
-                    <p className="text-xs text-zinc-500 font-medium">
-                      Objet : {rel.typePaiement} ({rel.montant.toLocaleString()} FCFA)
-                    </p>
-                    <div className="flex items-center gap-3 text-[10px] text-zinc-400 font-medium pt-1">
-                      <span>Transmis le : {rel.dateEnvoi}</span>
-                      <span>&bull;</span>
-                      <span>Échéance : {rel.dateEcheance}</span>
-                    </div>
+        ) : (
+          <div className="space-y-3.5 max-h-[400px] sm:max-h-[480px] overflow-y-auto pr-1">
+            {filteredRelances.map((rel) => (
+              <div 
+                key={rel.id} 
+                className="p-3 sm:p-4 rounded-xl border border-zinc-200/60 bg-zinc-50/20 hover:bg-zinc-50/50 hover:border-zinc-300 transition-all flex flex-col sm:flex-row justify-between sm:items-center gap-3 sm:gap-4"
+              >
+                <div className="space-y-1 min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                    <span className="font-bold text-sm text-zinc-900 truncate">{rel.clientNom}</span>
+                    <span className="text-[10px] bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded-full font-mono truncate max-w-[120px] sm:max-w-none">
+                      {rel.projetNom}
+                    </span>
                   </div>
+                  <p className="text-xs text-zinc-500 font-medium truncate">
+                    Objet : {rel.typePaiement} ({rel.montant.toLocaleString()} FCFA)
+                  </p>
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[10px] text-zinc-400 font-medium pt-1">
+                    <span>Transmis : {rel.dateEnvoi}</span>
+                    <span className="hidden xs:inline">&bull;</span>
+                    <span>Échéance : {rel.dateEcheance}</span>
+                  </div>
+                </div>
 
-                  <div className="flex items-center justify-between sm:justify-end gap-3 pt-3 sm:pt-0 border-t sm:border-t-0 border-zinc-100">
-                    <div className="flex items-center gap-2">
-                      {/* Channel badge */}
-                      <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border
-                        ${rel.canal === 'WhatsApp' ? 'bg-emerald-50 text-emerald-800 border-emerald-200/50' : ''}
-                        ${rel.canal === 'Email' ? 'bg-sky-50 text-sky-800 border-sky-200/50' : ''}
-                        ${rel.canal === 'Copie' ? 'bg-zinc-100 text-zinc-700 border-zinc-300/50' : ''}
-                      `}>
-                        {rel.canal}
-                      </span>
+                <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-3 pt-3 sm:pt-0 border-t sm:border-t-0 border-zinc-100 w-full sm:w-auto">
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                    {/* Channel badge */}
+                    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold border
+                      ${rel.canal === 'WhatsApp' ? 'bg-emerald-50 text-emerald-800 border-emerald-200/50' : ''}
+                      ${rel.canal === 'Email' ? 'bg-sky-50 text-sky-800 border-sky-200/50' : ''}
+                      ${rel.canal === 'Copie' ? 'bg-zinc-100 text-zinc-700 border-zinc-300/50' : ''}
+                    `}>
+                      {rel.canal}
+                    </span>
 
-                      {/* Status badge toggler */}
-                      <button
-                        onClick={async () => {
-                          const nextStatus: RelanceStatus = rel.statut === 'Envoyé' ? 'Payé' : 'Envoyé';
-                          await onUpdateRelance(rel.id!, { statut: nextStatus });
-                          
-                          if (nextStatus === 'Payé') {
-                            const isMaintenance = rel.typePaiement.toLowerCase().includes('maintenance');
-                            const isWave = rel.lienPaiement.toLowerCase().includes('wave');
-                            const moyen = isWave ? 'Wave' : 'Orange Money';
-                            await onAddPayment({
-                              clientId: rel.clientId,
-                              projetId: rel.projetId,
-                              type: isMaintenance ? 'maintenance' : 'site',
-                              montant: rel.montant,
-                              datePaiement: new Date().toISOString().split('T')[0],
-                              moyenPaiement: moyen,
-                              reference: `RL-PAY-${rel.id}`,
-                              commentaire: `Paiement enregistré via relance : ${rel.typePaiement}`
-                            });
-                          } else {
-                            // If toggled back, delete the logged payment
-                            const matchingPayment = payments.find(p => p.reference === `RL-PAY-${rel.id}`);
-                            if (matchingPayment && matchingPayment.id) {
-                              await onDeletePayment(matchingPayment.id);
-                            }
-                          }
-                        }}
-                        className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border transition-all cursor-pointer
-                          ${rel.statut === 'Payé' 
-                            ? 'bg-emerald-100 text-emerald-800 border-emerald-300 hover:bg-emerald-200' 
-                            : 'bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200'
-                          }
-                        `}
-                        title="Inverser le statut (Rappelé ou Payé)"
-                      >
-                        {rel.statut === 'Payé' ? <CheckCircle2 className="w-3.5 h-3.5" /> : <AlertCircle className="w-3.5 h-3.5 animate-pulse" />}
-                        {rel.statut}
-                      </button>
-                    </div>
-
+                    {/* Status badge toggler */}
                     <button
                       onClick={async () => {
-                        if (confirm("Supprimer cette relance de l'historique ?")) {
+                        const nextStatus: RelanceStatus = rel.statut === 'Envoyé' ? 'Payé' : 'Envoyé';
+                        await onUpdateRelance(rel.id!, { statut: nextStatus });
+                        
+                        if (nextStatus === 'Payé') {
+                          const isMaintenance = rel.typePaiement.toLowerCase().includes('maintenance');
+                          const isWave = rel.lienPaiement.toLowerCase().includes('wave');
+                          const moyen = isWave ? 'Wave' : 'Orange Money';
+                          await onAddPayment({
+                            clientId: rel.clientId,
+                            projetId: rel.projetId,
+                            type: isMaintenance ? 'maintenance' : 'site',
+                            montant: rel.montant,
+                            datePaiement: new Date().toISOString().split('T')[0],
+                            moyenPaiement: moyen,
+                            reference: `RL-PAY-${rel.id}`,
+                            commentaire: `Paiement enregistré via relance : ${rel.typePaiement}`
+                          });
+                        } else {
                           const matchingPayment = payments.find(p => p.reference === `RL-PAY-${rel.id}`);
                           if (matchingPayment && matchingPayment.id) {
                             await onDeletePayment(matchingPayment.id);
                           }
-                          await onDeleteRelance(rel.id!);
                         }
                       }}
-                      className="p-1 hover:bg-rose-50 rounded text-zinc-400 hover:text-rose-600 transition-colors"
-                      title="Supprimer la relance"
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold border transition-all cursor-pointer
+                        ${rel.statut === 'Payé' 
+                          ? 'bg-emerald-100 text-emerald-800 border-emerald-300 hover:bg-emerald-200' 
+                          : 'bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200'
+                        }
+                      `}
+                      title="Inverser le statut (Rappelé ou Payé)"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      {rel.statut === 'Payé' ? <CheckCircle2 className="w-3.5 h-3.5" /> : <AlertCircle className="w-3.5 h-3.5 animate-pulse" />}
+                      <span className="hidden xs:inline">{rel.statut}</span>
                     </button>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
 
-        {/* Generator widget instructions Card */}
-        <div className="bg-white rounded-xl border border-zinc-200/80 shadow-xs p-6 space-y-4">
-          <h3 className="font-semibold text-zinc-900 text-base">Modèle de relance professionnelle</h3>
-          <p className="text-zinc-500 text-xs leading-relaxed">
-            Configurez un message instantané reprenant toutes les variables du client. Une fois rédigé, vous pouvez le partager sur WhatsApp, l'envoyer par e-mail ou le copier en un clic.
-          </p>
-
-          <div className="bg-zinc-50 rounded-xl p-4 border border-zinc-150 relative text-xs text-zinc-600 font-mono space-y-1.5 leading-normal">
-            <span className="absolute right-3 top-3 text-[9px] uppercase font-bold tracking-widest text-zinc-400 font-sans border border-zinc-200 bg-white px-2 py-0.5 rounded-sm">modèle de base</span>
-            <p className="font-semibold text-zinc-900">Variables prises en compte :</p>
-            <p>&bull; <span className="text-amber-600">{`{Nom du client}`}</span></p>
-            <p>&bull; <span className="text-amber-600">{`{Montant}`}</span> FCFA</p>
-            <p>&bull; <span className="text-amber-600">{`{Type de paiement}`}</span></p>
-            <p>&bull; <span className="text-amber-600">{`{Nom du projet}`}</span></p>
-            <p>&bull; <span className="text-amber-600">{`{Lien de paiement}`}</span></p>
-          </div>
-        </div>
-      </div>
-
-      {/* Generator Modal */}
-      {isGeneratorOpen && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl border border-zinc-200 shadow-xl max-w-4xl w-full overflow-hidden flex flex-col md:flex-row animate-in fade-in zoom-in-95 duration-150">
-            {/* Left Column: Form parameters */}
-            <div className="p-6 md:w-1/2 border-b md:border-b-0 md:border-r border-zinc-150 space-y-4 max-h-[500px] overflow-y-auto">
-              <div className="flex items-center justify-between">
-                <h3 className="text-base font-bold text-zinc-950">Paramétrer la relance</h3>
-                <button onClick={() => setIsGeneratorOpen(false)} className="text-zinc-400 hover:text-zinc-600 md:hidden">
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-zinc-600">Client cible *</label>
-                <select
-                  value={selectedClientId}
-                  onChange={(e) => handleClientChange(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-zinc-200 rounded-lg focus:ring-1 focus:ring-amber-500 text-zinc-850 bg-white"
-                >
-                  <option value="">Sélectionner un client</option>
-                  {clients.map(c => (
-                    <option key={c.id} value={c.id}>{c.nom} ({c.entreprise})</option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-zinc-600">Projet rattaché *</label>
-                <select
-                  value={selectedProjectId}
-                  onChange={(e) => setSelectedProjectId(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-zinc-200 rounded-lg focus:ring-1 focus:ring-amber-500 text-zinc-850 bg-white"
-                >
-                  <option value="">Sélectionner un projet</option>
-                  {projects.filter(p => p.clientId === selectedClientId).map(p => (
-                    <option key={p.id} value={p.id}>{p.nom}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-zinc-600">Type de règlement</label>
-                <input
-                  type="text"
-                  placeholder="Ex : Maintenance Mensuelle, Solde livraison..."
-                  value={typePaiement}
-                  onChange={(e) => setTypePaiement(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-zinc-200 rounded-lg focus:ring-1 focus:ring-amber-500 text-zinc-850"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-600">Montant (FCFA)</label>
-                  <input
-                    type="number"
-                    value={montant}
-                    onChange={(e) => {
-                      const val = Number(e.target.value);
-                      setMontant(val);
-                      if (lienPaiement.includes('pay.wave.com/m/M_ci_waw-9EveeQZb')) {
-                        setLienPaiement(`https://pay.wave.com/m/M_ci_waw-9EveeQZb/c/ci/?amount=${val}`);
+                  <button
+                    onClick={async () => {
+                      if (confirm("Supprimer cette relance de l'historique ?")) {
+                        const matchingPayment = payments.find(p => p.reference === `RL-PAY-${rel.id}`);
+                        if (matchingPayment && matchingPayment.id) {
+                          await onDeletePayment(matchingPayment.id);
+                        }
+                        await onDeleteRelance(rel.id!);
                       }
                     }}
-                    className="w-full px-3 py-2 text-sm border border-zinc-200 rounded-lg focus:ring-1 focus:ring-amber-500 text-zinc-850"
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-600">Date d'échéance</label>
-                  <input
-                    type="date"
-                    value={dateEcheance}
-                    onChange={(e) => setDateEcheance(e.target.value)}
-                    className="w-full px-3 py-2 text-sm border border-zinc-200 rounded-lg focus:ring-1 focus:ring-amber-500 text-zinc-850"
-                  />
+                    className="p-1 hover:bg-rose-50 rounded text-zinc-400 hover:text-rose-600 transition-colors shrink-0"
+                    title="Supprimer la relance"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
+            ))}
+          </div>
+        )}
+      </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-zinc-600">Lien de paiement (Wave, OM...)</label>
-                <input
-                  type="text"
-                  value={lienPaiement}
-                  onChange={(e) => setLienPaiement(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-zinc-200 rounded-lg focus:ring-1 focus:ring-amber-500 text-zinc-850"
-                />
-              </div>
+      {/* Generator widget instructions Card - responsive */}
+      <div className="bg-white rounded-xl border border-zinc-200/80 shadow-xs p-4 sm:p-6 space-y-4">
+        <h3 className="font-semibold text-zinc-900 text-sm sm:text-base">Modèle de relance professionnelle</h3>
+        <p className="text-zinc-500 text-xs leading-relaxed">
+          Configurez un message instantané reprenant toutes les variables du client. Une fois rédigé, vous pouvez le partager sur WhatsApp, l'envoyer par e-mail ou le copier en un clic.
+        </p>
 
-              <button
-                type="button"
-                onClick={handleGeneratePreview}
-                className="w-full py-2 bg-zinc-900 hover:bg-zinc-850 text-white rounded-lg transition-colors text-sm font-semibold"
-              >
-                Générer le texte
+        <div className="bg-zinc-50 rounded-xl p-3 sm:p-4 border border-zinc-150 relative text-xs text-zinc-600 font-mono space-y-1.5 leading-normal">
+          <span className="absolute right-2 sm:right-3 top-2 sm:top-3 text-[9px] uppercase font-bold tracking-widest text-zinc-400 font-sans border border-zinc-200 bg-white px-2 py-0.5 rounded-sm">
+            modèle
+          </span>
+          <p className="font-semibold text-zinc-900 text-[11px] sm:text-xs">Variables prises en compte :</p>
+          <p className="text-[11px] sm:text-xs">&bull; <span className="text-amber-600">{`{Nom du client}`}</span></p>
+          <p className="text-[11px] sm:text-xs">&bull; <span className="text-amber-600">{`{Montant}`}</span> FCFA</p>
+          <p className="text-[11px] sm:text-xs">&bull; <span className="text-amber-600">{`{Type de paiement}`}</span></p>
+          <p className="text-[11px] sm:text-xs">&bull; <span className="text-amber-600">{`{Nom du projet}`}</span></p>
+          <p className="text-[11px] sm:text-xs">&bull; <span className="text-amber-600">{`{Lien de paiement}`}</span></p>
+        </div>
+      </div>
+    </div>
+
+    {/* Generator Modal - fully responsive with two columns on desktop */}
+    {isGeneratorOpen && (
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4 z-50">
+        <div className="bg-white rounded-xl border border-zinc-200 shadow-xl max-w-4xl w-full max-h-[95vh] overflow-hidden flex flex-col md:flex-row animate-in fade-in zoom-in-95 duration-150">
+          {/* Left Column: Form parameters - scrollable */}
+          <div className="p-4 sm:p-6 md:w-1/2 border-b md:border-b-0 md:border-r border-zinc-150 space-y-4 overflow-y-auto max-h-[60vh] md:max-h-[80vh]">
+            <div className="flex items-center justify-between">
+              <h3 className="text-base font-bold text-zinc-950">Paramétrer la relance</h3>
+              <button onClick={() => setIsGeneratorOpen(false)} className="text-zinc-400 hover:text-zinc-600 md:hidden">
+                <X className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Right Column: Preview + Actions */}
-            <div className="p-6 md:w-1/2 flex flex-col justify-between bg-zinc-50 max-h-[500px]">
-              <div className="flex items-center justify-between mb-3 shrink-0">
-                <h4 className="text-xs uppercase font-bold text-zinc-400 tracking-widest font-mono">Aperçu du message relance</h4>
-                <button onClick={() => setIsGeneratorOpen(false)} className="text-zinc-400 hover:text-zinc-600 hidden md:block">
-                  <X className="w-5 h-5" />
-                </button>
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-zinc-600">Client cible *</label>
+              <select
+                value={selectedClientId}
+                onChange={(e) => handleClientChange(e.target.value)}
+                className="w-full px-3 py-2 text-sm border border-zinc-200 rounded-lg focus:ring-1 focus:ring-amber-500 text-zinc-850 bg-white"
+              >
+                <option value="">Sélectionner un client</option>
+                {clients.map(c => (
+                  <option key={c.id} value={c.id}>{c.nom} ({c.entreprise})</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-zinc-600">Projet rattaché *</label>
+              <select
+                value={selectedProjectId}
+                onChange={(e) => setSelectedProjectId(e.target.value)}
+                className="w-full px-3 py-2 text-sm border border-zinc-200 rounded-lg focus:ring-1 focus:ring-amber-500 text-zinc-850 bg-white"
+              >
+                <option value="">Sélectionner un projet</option>
+                {projects.filter(p => p.clientId === selectedClientId).map(p => (
+                  <option key={p.id} value={p.id}>{p.nom}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-zinc-600">Type de règlement</label>
+              <input
+                type="text"
+                placeholder="Ex : Maintenance Mensuelle, Solde livraison..."
+                value={typePaiement}
+                onChange={(e) => setTypePaiement(e.target.value)}
+                className="w-full px-3 py-2 text-sm border border-zinc-200 rounded-lg focus:ring-1 focus:ring-amber-500 text-zinc-850"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 xs:grid-cols-2 gap-3 sm:gap-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-zinc-600">Montant (FCFA)</label>
+                <input
+                  type="number"
+                  value={montant}
+                  onChange={(e) => {
+                    const val = Number(e.target.value);
+                    setMontant(val);
+                    if (lienPaiement.includes('pay.wave.com/m/M_ci_waw-9EveeQZb')) {
+                      setLienPaiement(`https://pay.wave.com/m/M_ci_waw-9EveeQZb/c/ci/?amount=${val}`);
+                    }
+                  }}
+                  className="w-full px-3 py-2 text-sm border border-zinc-200 rounded-lg focus:ring-1 focus:ring-amber-500 text-zinc-850"
+                />
               </div>
-
-              <div className="flex-1 overflow-y-auto mb-4 border border-zinc-200 bg-white rounded-lg p-4 font-sans text-sm text-zinc-800 whitespace-pre-wrap select-text leading-relaxed">
-                {generatedMessage || (
-                  <p className="text-zinc-400 italic text-center pt-20">
-                    Complétez les champs de gauche et cliquez sur "Générer le texte" pour prévisualiser le message de rappel.
-                  </p>
-                )}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-zinc-600">Date d'échéance</label>
+                <input
+                  type="date"
+                  value={dateEcheance}
+                  onChange={(e) => setDateEcheance(e.target.value)}
+                  className="w-full px-3 py-2 text-sm border border-zinc-200 rounded-lg focus:ring-1 focus:ring-amber-500 text-zinc-850"
+                />
               </div>
+            </div>
 
-              {generatedMessage && (
-                <div className="space-y-3 shrink-0">
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <button
-                      onClick={handleCopyText}
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 bg-zinc-100 border border-zinc-200 hover:bg-zinc-200 rounded-lg transition-colors text-xs font-semibold text-zinc-700"
-                    >
-                      <Clipboard className="w-4 h-4" />
-                      {isCopied ? 'Copié !' : 'Copier le message'}
-                    </button>
-                    
-                    <button
-                      onClick={handleShareWhatsApp}
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors text-xs font-bold shadow-xs"
-                    >
-                      <Send className="w-4 h-4 text-amber-300" />
-                      Envoyer sur WhatsApp
-                    </button>
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-zinc-600">Lien de paiement (Wave, OM...)</label>
+              <input
+                type="text"
+                value={lienPaiement}
+                onChange={(e) => setLienPaiement(e.target.value)}
+                className="w-full px-3 py-2 text-sm border border-zinc-200 rounded-lg focus:ring-1 focus:ring-amber-500 text-zinc-850"
+              />
+            </div>
 
-                    <button
-                      onClick={handleShareEmail}
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 bg-sky-600 hover:bg-sky-700 text-white rounded-lg transition-colors text-xs font-semibold"
-                    >
-                      <Mail className="w-4 h-4" />
-                      Envoyer par Email
-                    </button>
-                  </div>
-                </div>
+            <button
+              type="button"
+              onClick={handleGeneratePreview}
+              className="w-full py-2 bg-zinc-900 hover:bg-zinc-850 text-white rounded-lg transition-colors text-sm font-semibold"
+            >
+              Générer le texte
+            </button>
+          </div>
+
+          {/* Right Column: Preview + Actions - responsive */}
+          <div className="p-4 sm:p-6 md:w-1/2 flex flex-col bg-zinc-50 max-h-[40vh] md:max-h-[80vh]">
+            <div className="flex items-center justify-between mb-3 shrink-0">
+              <h4 className="text-[10px] sm:text-xs uppercase font-bold text-zinc-400 tracking-widest font-mono">
+                Aperçu du message
+              </h4>
+              <button onClick={() => setIsGeneratorOpen(false)} className="text-zinc-400 hover:text-zinc-600 hidden md:block">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto mb-3 sm:mb-4 border border-zinc-200 bg-white rounded-lg p-3 sm:p-4 font-sans text-xs sm:text-sm text-zinc-800 whitespace-pre-wrap select-text leading-relaxed min-h-[150px]">
+              {generatedMessage || (
+                <p className="text-zinc-400 italic text-center pt-8 sm:pt-20 text-xs sm:text-sm">
+                  Complétez les champs de gauche et cliquez sur "Générer le texte" pour prévisualiser le message de rappel.
+                </p>
               )}
             </div>
+
+            {generatedMessage && (
+              <div className="space-y-2 sm:space-y-3 shrink-0">
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <button
+                    onClick={handleCopyText}
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 sm:py-2.5 bg-zinc-100 border border-zinc-200 hover:bg-zinc-200 rounded-lg transition-colors text-[11px] sm:text-xs font-semibold text-zinc-700"
+                  >
+                    <Clipboard className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
+                    {isCopied ? 'Copié !' : 'Copier'}
+                  </button>
+                  
+                  <button
+                    onClick={handleShareWhatsApp}
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 sm:py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors text-[11px] sm:text-xs font-bold shadow-xs"
+                  >
+                    <Send className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-amber-300" />
+                    WhatsApp
+                  </button>
+
+                  <button
+                    onClick={handleShareEmail}
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 sm:py-2.5 bg-sky-600 hover:bg-sky-700 text-white rounded-lg transition-colors text-[11px] sm:text-xs font-semibold"
+                  >
+                    <Mail className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
+                    Email
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-      )}
-    </div>
-  );
+      </div>
+    )}
+  </div>
+);
 }
