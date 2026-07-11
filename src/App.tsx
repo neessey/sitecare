@@ -122,10 +122,6 @@ export default function App() {
     initApp();
   }, []);
 
-  useEffect(() => {
-    registerNotifications();
-}, []);
-
   const refreshAllData = async () => {
     setIsLoading(true);
     setError(null);
@@ -296,6 +292,13 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex bg-zinc-50 font-sans antialiased text-zinc-900" id="main-application-frame">
+    <button
+    onClick={async () => {
+        await registerNotifications();
+    }}
+>
+    Activer les notifications
+</button>
       {/* Mobile Top Bar */}
       <header className="md:hidden w-full bg-zinc-950 text-white h-14 fixed top-0 left-0 flex items-center justify-between px-4 z-40 shadow-sm no-print">
         <div className="flex items-center gap-2">
