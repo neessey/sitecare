@@ -292,13 +292,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex bg-zinc-50 font-sans antialiased text-zinc-900" id="main-application-frame">
-    <button
-    onClick={async () => {
-        await registerNotifications();
-    }}
->
-    Activer les notifications
-</button>
+    
       {/* Mobile Top Bar */}
       <header className="md:hidden w-full bg-zinc-950 text-white h-14 fixed top-0 left-0 flex items-center justify-between px-4 z-40 shadow-sm no-print">
         <div className="flex items-center gap-2">
@@ -388,19 +382,29 @@ export default function App() {
         </div>
 
         {/* User Workspace Profile bottom footer */}
-        <div className="p-4 border-t border-zinc-900 bg-zinc-950/50 flex items-center justify-between">
-          <div className="space-y-0.5">
-            <span className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider block">Développeur</span>
-            <p className="text-xs font-bold text-white leading-none">Yaniss-Elie Sey</p>
-          </div>
-          <button 
-            onClick={refreshAllData}
-            className="p-2 hover:bg-zinc-900 text-zinc-400 hover:text-white rounded-lg transition-colors border border-zinc-900"
-            title="Rafraîchir les données de Firestore"
-          >
-            <RefreshCw className="w-3.5 h-3.5" />
-          </button>
-        </div>
+       {/* User Workspace Profile bottom footer */}
+<div className="p-4 border-t border-zinc-900 bg-zinc-950/50 flex items-center justify-between">
+  <div className="space-y-0.5">
+    <span className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider block">Développeur</span>
+    <p className="text-xs font-bold text-white leading-none">Yaniss-Elie Sey</p>
+  </div>
+  <div className="flex items-center gap-2">
+    <button
+      onClick={async () => await registerNotifications()}
+      className="p-2 hover:bg-zinc-900 text-zinc-400 hover:text-amber-500 rounded-lg transition-colors border border-zinc-900"
+      title="Activer les notifications"
+    >
+      <BellRing className="w-3.5 h-3.5" />
+    </button>
+    <button 
+      onClick={refreshAllData}
+      className="p-2 hover:bg-zinc-900 text-zinc-400 hover:text-white rounded-lg transition-colors border border-zinc-900"
+      title="Rafraîchir les données de Firestore"
+    >
+      <RefreshCw className="w-3.5 h-3.5" />
+    </button>
+  </div>
+</div>
       </aside>
 
       {/* Main Container */}
