@@ -36,6 +36,7 @@ import {
   Coins, BellRing, CalendarRange, BarChart3, ShieldAlert,
   Menu, X, Sparkles, Loader2, RefreshCw
 } from 'lucide-react';
+import { registerNotifications } from './lib/notification';
 
 // Date utility to calculate next due date
 const calculateNextDueDate = (currentDueDateStr: string, frequency: MaintenanceFrequency, paymentDateStr: string): string => {
@@ -120,6 +121,10 @@ export default function App() {
 
     initApp();
   }, []);
+
+  useEffect(() => {
+    registerNotifications();
+}, []);
 
   const refreshAllData = async () => {
     setIsLoading(true);
@@ -287,6 +292,7 @@ export default function App() {
   // Check alert state (active contracts overdue)
   const todayStr = '2026-07-09';
   const overdueAlertsCount = contracts.filter(c => c.statut === 'Actif' && c.prochaineEcheance < todayStr).length;
+  
 
   return (
     <div className="min-h-screen flex bg-zinc-50 font-sans antialiased text-zinc-900" id="main-application-frame">
